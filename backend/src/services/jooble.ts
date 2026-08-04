@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { RawJoobleJob } from "../types/api.js";
 
 const api = axios.create({
   headers: {
@@ -9,9 +10,9 @@ const api = axios.create({
   },
 });
 
-const discoverCompaniesFromJooble = async () => {
+const discoverCompaniesFromJooble = async (): Promise<RawJoobleJob[]> => {
   try {
-    const response = await api.post(
+    const response = await api.post<{ jobs?: RawJoobleJob[] }>(
       `https://jooble.org/api/${process.env.JOOBLE_API_KEY}`,
       {
         keywords:
@@ -21,17 +22,9 @@ const discoverCompaniesFromJooble = async () => {
       },
     );
 
-    const jobs = response.data.jobs || [];
-
-    return jobs.map((job: any) => ({
-      source: "jooble",
-      company_name: job.company,
-      title: job.title,
-      redirect_url: job.link,
-      publication_date: job.updated,
-    }));
-  } catch (error: any) {
-    console.log(error.config.url);
+    const jobs: RawJoobleJob[] = response.data.jobs || [];
+    return jobs;
+  } catch (error) {
     console.error("[Jooble API Error]:", error);
     return [];
   }

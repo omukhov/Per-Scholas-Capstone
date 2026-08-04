@@ -1,4 +1,5 @@
 import axios from "axios";
+import { UnifiedInternshipInput } from "../types/api.js";
 
 const internship = axios.create({
   timeout: 10000,
@@ -9,7 +10,7 @@ const internship = axios.create({
   },
 });
 
-const fetchGithubInternships = async () => {
+const fetchGithubInternships = async (): Promise<UnifiedInternshipInput[]> => {
   try {
     const response = await internship.get(
       "https://raw.githubusercontent.com/SimplifyJobs/Summer2027-Internships/dev/README.md",
@@ -17,17 +18,12 @@ const fetchGithubInternships = async () => {
 
     const markdownText: string = response.data;
 
-    const internships: Array<{
-      source: string;
-      company_name: string;
-      title: string;
-      redirect_url: string;
-    }> = [];
+    const internships: UnifiedInternshipInput[] = [];
 
-    const linkRegex =
+    const linkRegex: RegExp =
       /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|href="(https?:\/\/[^"]+)"/g;
 
-    const lines = markdownText.split("\n");
+    const lines: string[] = markdownText.split("\n");
 
     for (const line of lines) {
       if (!line.includes("http") && !line.includes("href")) continue;

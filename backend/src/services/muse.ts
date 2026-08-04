@@ -1,4 +1,5 @@
 import axios from "axios";
+import { RawMuseJob } from "../types/api.js";
 
 const museClient = axios.create({
   baseURL: "https://www.themuse.com/api/public",
@@ -10,30 +11,9 @@ const museClient = axios.create({
   },
 });
 
-interface MuseJob {
-  id: number;
-  name: string;
-  company: {
-    id: number;
-    name: string;
-  };
-  refs: {
-    landing_page: string;
-  };
-  publication_date: string;
-  levels: Array<{ name: string }>;
-  locations: Array<{ name: string }>;
-}
-
-interface MuseApiResponse {
-  page: number;
-  page_count: number;
-  results: MuseJob[];
-}
-
-const discoverJobsFromMuse = async (page = 0) => {
+const discoverCompaniesFromMuse = async (page = 0): Promise<RawMuseJob[]> => {
   try {
-    const response = await museClient.get<MuseApiResponse>("/jobs", {
+    const response = await museClient.get("/jobs", {
       params: {
         category: "Software Engineering",
         level: "Entry Level",
@@ -41,28 +21,11 @@ const discoverJobsFromMuse = async (page = 0) => {
       },
     });
 
-    const rawJobs = response.data.results || [];
-
-    return rawJobs.map((job) => ({
-      source: "themuse" as const,
-      company_name: job.company.name,
-      title: job.name,
-      redirect_url: job.refs.landing_page,
-      publication_date: job.publication_date,
-      location: job.locations.map((l) => l.name).join(", ") || "USA",
-    }));
+    return response.data.results || [];
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      console.error(
-        "[The Muse API Error]:",
-        error.response?.status,
-        error.message,
-      );
-    } else {
-      console.error("[The Muse API Error]:", error);
-    }
+    console.error("[The Muse API Error]:", error);
     return [];
   }
 };
 
-export default discoverJobsFromMuse;
+export default discoverCompaniesFromMuse;
