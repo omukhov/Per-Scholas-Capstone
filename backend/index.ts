@@ -1,8 +1,9 @@
+dotenv.config();
+
 import express from "express";
 import dotenv from "dotenv";
+import vacancies from "./routes/Vacancies.js";
 import connectDB from "./config/db.js";
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
@@ -17,11 +18,14 @@ app.use(
 
 app.use("/static", express.static("public"));
 
+app.use("/vacancies", vacancies);
+
 app.get("/", (req, res) => {
   res.json("main");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  connectDB();
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 });

@@ -19,8 +19,11 @@ const getCompaniesWithJuniorJobs = async (page = 1) => {
       },
     });
 
-    return response.data;
+    console.log(response.data);
+    return response.data.results;
   } catch (error) {
     console.log(error);
   }
 };
+
+export default getCompaniesWithJuniorJobs;
