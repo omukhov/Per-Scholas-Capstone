@@ -9,7 +9,7 @@ const api = axios.create({
   },
 });
 
-export const discoverJobsFromJooble = async () => {
+const discoverCompaniesFromJooble = async () => {
   try {
     const response = await api.post(
       `https://jooble.org/api/${process.env.JOOBLE_API_KEY}`,
@@ -22,7 +22,6 @@ export const discoverJobsFromJooble = async () => {
     );
 
     const jobs = response.data.jobs || [];
-    console.log(jobs);
 
     return jobs.map((job: any) => ({
       source: "jooble",
@@ -37,3 +36,5 @@ export const discoverJobsFromJooble = async () => {
     return [];
   }
 };
+
+export default discoverCompaniesFromJooble;

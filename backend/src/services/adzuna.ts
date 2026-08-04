@@ -5,7 +5,7 @@ const adzuna = axios.create({
   timeout: 10000,
 });
 
-const discoverCompanies = async (page = 1) => {
+const discoverCompaniesFromAdzuna = async (page = 1) => {
   try {
     const response = await adzuna.get(`/search/${page}`, {
       params: {
@@ -28,4 +28,4 @@ const discoverCompanies = async (page = 1) => {
   }
 };
 
-export default discoverCompanies;
+export default discoverCompaniesFromAdzuna;
