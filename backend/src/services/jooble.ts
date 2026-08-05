@@ -10,24 +10,34 @@ const api = axios.create({
   },
 });
 
-const discoverCompaniesFromJooble = async (): Promise<RawJoobleJob[]> => {
-  try {
-    const response = await api.post<{ jobs?: RawJoobleJob[] }>(
-      `https://jooble.org/api/${process.env.JOOBLE_API_KEY}`,
-      {
-        keywords:
-          '"Junior Software Engineer" OR "Entry Level Software Engineer"',
-        location: "USA",
-        page: "1",
-      },
-    );
+const discoverJuniorJobsFromJooble = async (): Promise<RawJoobleJob[]> => {
+  const allJobs: RawJoobleJob[] = [];
+  const maxPages = 5;
 
-    const jobs: RawJoobleJob[] = response.data.jobs || [];
-    return jobs;
-  } catch (error) {
-    console.error("[Jooble API Error]:", error);
-    return [];
+  for (let page = 1; page <= maxPages; page++) {
+    try {
+      const response = await api.post<{ jobs?: RawJoobleJob[] }>(
+        `https://jooble.org/api/${process.env.JOOBLE_API_KEY}`,
+        {
+          keywords: '"Software Engineer" OR "Software Developer"',
+          location: "USA",
+          page: String(page),
+        },
+      );
+
+      const jobs: RawJoobleJob[] = response.data.jobs || [];
+      allJobs.push(...jobs);
+      if (jobs.length < 20) break;
+    } catch (error) {
+      console.error(
+        `Jooble page ${page} failed:`,
+        error instanceof Error ? error.message : error,
+      );
+      break;
+    }
   }
+
+  return allJobs;
 };
 
-export default discoverCompaniesFromJooble;
+export default discoverJuniorJobsFromJooble;

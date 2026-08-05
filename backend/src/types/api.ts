@@ -40,12 +40,9 @@ export interface RawMuseJob {
 export interface UnifiedJobInput {
   company_name: string;
   normalized_company_name: string;
-  title: string;
   redirect_url: string;
   source: "adzuna" | "jooble" | "themuse";
-  source_job_id?: string;
-  location?: string;
-  publication_date?: Date;
+  status?: "pending_ats_resolution" | "resolved" | "failed";
 }
 
 export interface UnifiedInternshipInput {

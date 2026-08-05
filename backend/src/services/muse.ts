@@ -11,21 +11,32 @@ const museClient = axios.create({
   },
 });
 
-const discoverCompaniesFromMuse = async (page = 0): Promise<RawMuseJob[]> => {
-  try {
-    const response = await museClient.get("/jobs", {
-      params: {
-        category: "Software Engineering",
-        level: "Entry Level",
-        page: page,
-      },
-    });
+const discoverJuniorJobsFromMuse = async (): Promise<RawMuseJob[]> => {
+  const allJobs: RawMuseJob[] = [];
+  const maxPages = 5;
 
-    return response.data.results || [];
-  } catch (error: unknown) {
-    console.error("[The Muse API Error]:", error);
-    return [];
+  for (let page = 0; page <= maxPages; page++) {
+    try {
+      const response = await museClient.get("/jobs", {
+        params: {
+          category: "Software Engineering",
+          page: page,
+        },
+      });
+
+      const result: RawMuseJob[] = response.data.results;
+      allJobs.push(...result);
+      if (result.length < 20 || page >= response.data.page_count - 1) break;
+    } catch (error: unknown) {
+      console.error(
+        `The Muse page ${page} failed:`,
+        error instanceof Error ? error.message : error,
+      );
+      break;
+    }
   }
+
+  return allJobs;
 };
 
-export default discoverCompaniesFromMuse;
+export default discoverJuniorJobsFromMuse;

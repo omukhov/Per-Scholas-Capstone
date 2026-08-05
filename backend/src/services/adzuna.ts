@@ -6,10 +6,9 @@ const adzuna = axios.create({
   timeout: 10000,
 });
 
-const discoverCompaniesFromAdzuna = async (
-  maxPages = 5,
-): Promise<RawAdzunaJob[]> => {
+const discoverJuniorJobsFromAdzuna = async (): Promise<RawAdzunaJob[]> => {
   const allJobs: RawAdzunaJob[] = [];
+  const maxPages = 5;
 
   for (let page = 1; page <= maxPages; page++) {
     try {
@@ -18,10 +17,7 @@ const discoverCompaniesFromAdzuna = async (
           app_id: process.env.ADZUNA_APP_ID,
           app_key: process.env.ADZUNA_APP_KEY,
           category: "it-jobs",
-          what_or:
-            "software engineer developer frontend web fullstack java javascript react node",
-          what_exclude:
-            "senior sr lead staff principal manager director architect nurse nursing clinical driver sales recruiter",
+          what_exclude: "nurse nursing clinical driver sales recruiter",
           results_per_page: 50,
           sort_by: "date",
           max_days_old: 7,
@@ -33,12 +29,15 @@ const discoverCompaniesFromAdzuna = async (
 
       if (results.length < 50) break;
     } catch (error) {
-      console.log(error);
-      return [];
+      console.error(
+        `Adzuna page ${page} failed:`,
+        error instanceof Error ? error.message : error,
+      );
+      break;
     }
   }
 
   return allJobs;
 };
 
-export default discoverCompaniesFromAdzuna;
+export default discoverJuniorJobsFromAdzuna;

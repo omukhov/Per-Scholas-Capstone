@@ -21,12 +21,8 @@ export const normalizeAdzuna = (rawJob: RawAdzunaJob): UnifiedJobInput => {
   return {
     company_name: company,
     normalized_company_name: cleanCompanyName(company),
-    title: rawJob.title ? rawJob.title.replace(/<\/?[^>]+(>|$)/g, "") : "",
     redirect_url: rawJob.redirect_url,
     source: "adzuna",
-    source_job_id: String(rawJob.id),
-    location: rawJob.location?.display_name || "USA",
-    publication_date: rawJob.created ? new Date(rawJob.created) : new Date(),
   };
 };
 
@@ -37,12 +33,8 @@ export const normalizeJooble = (rawJob: RawJoobleJob): UnifiedJobInput => {
   return {
     company_name: company,
     normalized_company_name: cleanCompanyName(company),
-    title: rawJob.title ? rawJob.title.replace(/<\/?[^>]+(>|$)/g, "") : "",
     redirect_url: rawJob.link,
     source: "jooble",
-    source_job_id: rawJob.id ? String(rawJob.id) : undefined,
-    location: rawJob.location || "USA",
-    publication_date: rawJob.updated ? new Date(rawJob.updated) : new Date(),
   };
 };
 
@@ -53,14 +45,8 @@ export const normalizeMuse = (rawJob: RawMuseJob): UnifiedJobInput => {
   return {
     company_name: company,
     normalized_company_name: cleanCompanyName(company),
-    title: rawJob.name || "",
     redirect_url: rawJob.refs?.landing_page,
     source: "themuse",
-    source_job_id: String(rawJob.id),
-    location: rawJob.locations?.map((l) => l.name).join(", ") || "USA",
-    publication_date: rawJob.publication_date
-      ? new Date(rawJob.publication_date)
-      : new Date(),
   };
 };
 

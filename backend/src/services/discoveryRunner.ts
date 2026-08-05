@@ -1,6 +1,6 @@
-import discoverCompaniesFromAdzuna from "./adzuna.js";
-import discoverCompaniesFromJooble from "./jooble.js";
-import discoverCompaniesFromMuse from "./muse.js";
+import discoverJuniorJobsFromAdzuna from "./adzuna.js";
+import discoverJuniorJobsFromJooble from "./jooble.js";
+import discoverJuniorJobsFromMuse from "./muse.js";
 import fetchGithubInternships from "./internships.js";
 
 import { DiscoveredJob } from "../models/DiscoverdJob.js";
@@ -22,9 +22,9 @@ import {
 
 const runFullDiscovery = async () => {
   const [rawAdzuna, rawJooble, rawMuse, rawIntenship] = await Promise.all([
-    discoverCompaniesFromAdzuna(1),
-    discoverCompaniesFromJooble(),
-    discoverCompaniesFromMuse(0),
+    discoverJuniorJobsFromAdzuna(),
+    discoverJuniorJobsFromJooble(),
+    discoverJuniorJobsFromMuse(),
     fetchGithubInternships(),
   ]);
 
@@ -38,13 +38,22 @@ const runFullDiscovery = async () => {
     const jobOperations = unifiedJobs.map((job: UnifiedJobInput) => ({
       updateOne: {
         filter: { redirect_url: job.redirect_url },
-        update: { $setOnInsert: job },
+        update: {
+          $setOnInsert: {
+            company_name: job.company_name,
+            normalized_company_name: job.normalized_company_name,
+            redirect_url: job.redirect_url,
+            source: job.source,
+          },
+        },
         upsert: true,
       },
     }));
 
-    const jobResult = await DiscoveredJob.bulkWrite(jobOperations);
-    console.log(`Jobs added: ${jobResult}`);
+    if (jobOperations.length > 0) {
+      const jobResult = await DiscoveredJob.bulkWrite(jobOperations);
+      console.log(`Jobs added: ${jobResult}`);
+    }
   }
 
   if (rawIntenship && rawIntenship.length > 0) {
