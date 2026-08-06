@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import type {
   LoadingContextValue,
   LoadingProviderProps,
-} from "./LoadingContextTypes.js";
+} from "../types/context";
 
 const LoadingContext = createContext<LoadingContextValue | null>(null);
 

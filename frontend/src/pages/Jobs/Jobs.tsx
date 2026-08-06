@@ -1,7 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getJobs } from "../../api/api.ts";
 import { useLoading } from "../../context/LoadingContext.jsx";
-import type { Job } from "../../types/job.ts";
+import type { Job } from "../../types/pages.ts";
+import { columns } from "../../data/Companies.tsx";
+import DataTable from "../../components/DataTable/DataTable.tsx";
 
 function Jobs() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -14,9 +16,10 @@ function Jobs() {
       try {
         startLoading();
         setError(null);
-        const data = await getJobs();
+        const data = await getJobs(1);
 
-        setJobs(data);
+        setJobs(data.jobs);
+        setTotalJobs(data.pagination.totalJobs);
       } catch (error: unknown) {
         stopLoading();
         setError(error);
@@ -41,17 +44,12 @@ function Jobs() {
 
       <p>Total jobs: {totalJobs}</p>
 
-      {jobs.map((job: any) => (
-        <article key={job._id}>
-          <h2>{job.title}</h2>
-          <p>{job.company_name}</p>
-          <p>{job.location}</p>
-
-          <a href={job.apply_url} target="_blank" rel="noreferrer">
-            Apply
-          </a>
-        </article>
-      ))}
+      <DataTable
+        columns={columns}
+        data={jobs}
+        getRowKey={(job: Job) => job._id}
+        emptyMessage="No jobs found"
+      />
     </div>
   );
 }
