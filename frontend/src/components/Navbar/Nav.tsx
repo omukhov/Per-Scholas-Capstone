@@ -2,7 +2,7 @@ import { NavLink } from "react-router";
 import styles from "./Nav.module.css";
 import logoImg from "../../assets/logo.png";
 
-function Navbar() {
+const Navbar = (): React.JSX.Element => {
   const getLinkClass = ({ isActive }: { isActive: boolean }): string => {
     return isActive ? `${styles.link} ${styles.active}` : styles.link;
   };
@@ -31,6 +31,6 @@ function Navbar() {
       </nav>
     </header>
   );
-}
+};
 
 export default Navbar;

@@ -10,7 +10,7 @@ const JobFilters = ({
   onInternshipChange,
   onRemoteChange,
   onClear,
-}: IJobFiltersProps) => {
+}: IJobFiltersProps): React.JSX.Element => {
   return (
     <div className={styles.filters}>
       <form

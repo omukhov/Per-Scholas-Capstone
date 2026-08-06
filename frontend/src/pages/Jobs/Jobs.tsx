@@ -5,11 +5,11 @@ import type { IJob } from "../../types/pages.ts";
 import { columns } from "../../data/Companies.tsx";
 import DataTable from "../../components/DataTable/DataTable.tsx";
 import JobFilters from "../../components/JobFilters/JobFilters.tsx";
+import Pagination from "../../components/Pagination/Pagination.tsx";
 
-function Jobs() {
+const Jobs = (): React.JSX.Element => {
   const [jobs, setJobs] = useState<IJob[]>([]);
   const [totalJobs, setTotalJobs] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState(1);
 
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
@@ -17,6 +17,10 @@ function Jobs() {
   const [internshipOnly, setInternshipOnly] = useState(false);
 
   const [remoteOnly, setRemoteOnly] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   const { startLoading, stopLoading } = useLoading();
 
   useEffect(() => {
@@ -32,6 +36,7 @@ function Jobs() {
 
         setJobs(data.jobs);
         setTotalJobs(data.pagination.totalJobs);
+        setTotalPages(data.pagination.totalPages);
       } catch (error: unknown) {
         stopLoading();
         console.error("Failed to load jobs:", error);
@@ -66,6 +71,15 @@ function Jobs() {
     setRemoteOnly(false);
   };
 
+  const handlePageChange = (page: number): void => {
+    setCurrentPage(page);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div>
       <h1>Job Market</h1>
@@ -88,8 +102,14 @@ function Jobs() {
         getRowKey={(job: IJob) => job._id}
         emptyMessage="No jobs found"
       />
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
-}
+};
 
 export default Jobs;

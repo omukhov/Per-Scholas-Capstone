@@ -15,7 +15,7 @@ export function LoadingProvider({ children }: ILoadingProviderProps) {
 
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  const startLoading = () => {
+  const startLoading = (): void => {
     clearTimeout(timer.current);
 
     startTime.current = Date.now();
@@ -23,7 +23,7 @@ export function LoadingProvider({ children }: ILoadingProviderProps) {
     setLoading(true);
   };
 
-  const stopLoading = () => {
+  const stopLoading = (): void => {
     const elapsedTime = Date.now() - startTime.current;
 
     const remainingTime = Math.max(0, MIN_LOADING_TIME - elapsedTime);

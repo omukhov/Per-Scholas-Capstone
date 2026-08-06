@@ -6,7 +6,7 @@ import { useLoading } from "./context/LoadingContext";
 import Loader from "./components/Loader/Loader";
 import "./styles/global.css";
 
-function App() {
+const App = (): React.JSX.Element => {
   const { loading } = useLoading();
   return (
     <div>
@@ -20,6 +20,6 @@ function App() {
       </main>
     </div>
   );
-}
+};
 
 export default App;

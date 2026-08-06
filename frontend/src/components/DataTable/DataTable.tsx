@@ -6,7 +6,7 @@ export default function DataTable<T>({
   data,
   getRowKey,
   emptyMessage = "No data found",
-}: IDataTableProps<T>) {
+}: IDataTableProps<T>): React.JSX.Element {
   return (
     <div className={styles.wrapper}>
       <table className={styles.table}>

@@ -1,6 +1,6 @@
 import styles from "./Loader.module.css";
 
-export default function Loader() {
+export default function Loader(): React.JSX.Element {
   return (
     <div
       className={styles.loaderOverlay}
