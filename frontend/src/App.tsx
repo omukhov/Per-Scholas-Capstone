@@ -1,5 +1,11 @@
+import Jobs from "./pages/Jobs/Jobs";
+
 function App() {
-  return <div></div>;
+  return (
+    <div>
+      <Jobs />
+    </div>
+  );
 }
 
 export default App;
