@@ -6,7 +6,7 @@ import type { Job } from "../../types/job.ts";
 function Jobs() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [totalJobs, setTotalJobs] = useState<number>(0);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null | unknown>(null);
   const { startLoading, stopLoading } = useLoading();
 
   useEffect(() => {
@@ -18,6 +18,8 @@ function Jobs() {
 
         setJobs(data);
       } catch (error: unknown) {
+        stopLoading();
+        setError(error);
         console.error("Failed to load jobs:", error);
 
         if (error instanceof Error) {
