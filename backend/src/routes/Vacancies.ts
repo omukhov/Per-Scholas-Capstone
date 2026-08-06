@@ -1,8 +1,8 @@
 import express from "express";
-import discoverCompaniesFromAdzuna from "../services/adzuna.js";
-import discoverCompaniesFromJooble from "../services/jooble.js";
-import discoverJobsFromMuse from "../services/muse.js";
-import fetchGithubInternships from "../services/internships.js";
+import discoverCompaniesFromAdzuna from "../services/api/adzuna.js";
+import discoverCompaniesFromJooble from "../services/api/jooble.js";
+import discoverJobsFromMuse from "../services/api/muse.js";
+import fetchGithubInternships from "../services/api/internships.js";
 
 const router = express.Router();
 

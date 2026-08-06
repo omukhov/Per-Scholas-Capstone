@@ -5,7 +5,9 @@ import express from "express";
 import vacancies from "./routes/Vacancies.js";
 import connectDB from "./config/db.js";
 import cron from "node-cron";
-import runFullDiscovery from "./services/discoveryRunner.js";
+import runFullDiscovery from "./services/aggregatorRunner.js";
+import runKalilImport from "./services/kalilRunner.js";
+import runAtsHarvester from "./services/atsHarvester.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,28 +28,47 @@ app.get("/", (req, res) => {
   res.json("main");
 });
 
-app.get("/api/admin/trigger-discovery", async (req, res) => {
-  try {
-    runFullDiscovery();
-    res.json({
-      message: "Discovery pipeline triggered successfully in background!",
-    });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to trigger discovery" });
-  }
-});
-
 connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 
-    cron.schedule("0 3 * * *", async () => {
-      console.log("[Cron] Starting scheduled job discovery pipeline...");
+    /* Get jobs from Adzuna, Muse, Jooble API every sunday 03:00 am */
+    cron.schedule("0 3 * * 0", async () => {
+      console.log("[Cron] Starting scheduled job pipeline...");
       try {
         await runFullDiscovery();
-        console.log("[Cron] Scheduled discovery completed successfully!");
+        console.log("[Cron] Scheduled completed successfully!");
       } catch (error) {
         console.error("Cron Error]:", error);
+      }
+    });
+
+    /* Get jobs from github
+     * (https://github.com/kalil0321/ats-scrapers/tree/main/ats-companies)
+     * 1 day in every month 02:00 am
+     */
+    cron.schedule("0 2 1 * *", async () => {
+      console.log("[Cron] Starting monthly Kalil import...");
+
+      await runKalilImport();
+    });
+
+    /*
+     * Process next 100 ATS companies.
+     * Every 2 hours.
+     */
+    cron.schedule("0 */2 * * *", async () => {
+      console.log("[Cron] Starting ATS harvesting batch...");
+
+      try {
+        await runAtsHarvester();
+
+        console.log("[Cron] ATS harvesting completed successfully!");
+      } catch (error: unknown) {
+        console.error(
+          "[Cron] ATS harvesting failed:",
+          error instanceof Error ? error.message : error,
+        );
       }
     });
   });

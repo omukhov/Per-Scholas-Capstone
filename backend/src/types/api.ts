@@ -1,55 +1,162 @@
-// Raw response structure from Adzuna API
-export interface RawAdzunaJob {
+// ==============================
+// Adzuna
+// ==============================
+export interface IRawAdzunaJob {
   id: string | number;
   title?: string;
+  description?: string;
   created?: string;
   redirect_url: string;
+
   company?: {
     display_name?: string;
   };
+
   location?: {
     display_name?: string;
   };
 }
 
-// Raw response structure from Jooble API
-export interface RawJoobleJob {
+export interface IAdzunaSearchResponse {
+  results?: IRawAdzunaJob[];
+  count?: number;
+}
+
+// ==============================
+// Jooble
+// ==============================
+export interface IRawJoobleJob {
   id?: string | number;
   title?: string;
+  snippet?: string;
   updated?: string;
   link: string;
   company?: string;
   location?: string;
+  salary?: string;
+  source?: string;
+  type?: string;
 }
 
-// Raw response structure from The Muse API
-export interface RawMuseJob {
+export interface IJoobleSearchResponse {
+  totalCount?: number;
+  jobs?: IRawJoobleJob[];
+}
+
+// ==============================
+// The Muse
+// ==============================
+export interface IRawMuseJob {
   id: number;
   name: string;
+  contents?: string;
+  publication_date?: string;
+
   company: {
     id: number;
     name: string;
   };
+
   refs: {
     landing_page: string;
   };
-  publication_date?: string;
-  locations?: Array<{ name: string }>;
+
+  locations?: Array<{
+    name: string;
+  }>;
 }
 
-export interface UnifiedJobInput {
-  company_name: string;
-  normalized_company_name: string;
-  redirect_url: string;
-  source: "adzuna" | "jooble" | "themuse";
-  status?: "pending_ats_resolution" | "resolved" | "failed";
+export interface IMuseSearchResponse {
+  results?: IRawMuseJob[];
+  page_count?: number;
 }
 
-export interface UnifiedInternshipInput {
-  source: string;
-  company_name: string;
+// ==============================
+// Greenhouse
+// ==============================
+export interface IRawGreenhouseJob {
+  id: number;
   title: string;
-  redirect_url: string;
+  absolute_url: string;
+  updated_at?: string;
+  content?: string;
+  location?: {
+    name?: string;
+  };
+}
+
+export interface IGreenhouseJobsResponse {
+  jobs?: IRawGreenhouseJob[];
+}
+// ==============================
+// Lever
+// ==============================
+
+export interface IRawLeverJob {
+  id: string;
+  text: string;
+
+  categories?: {
+    commitment?: string;
+    department?: string;
+    location?: string;
+    team?: string;
+    allLocations?: string[];
+  };
+
+  country?: string | null;
+
+  hostedUrl: string;
+  applyUrl?: string;
+
+  description?: string;
+  descriptionPlain?: string;
+
+  opening?: string;
+  openingPlain?: string;
+
+  additional?: string;
+  additionalPlain?: string;
+
+  workplaceType?: "unspecified" | "on-site" | "remote" | "hybrid";
+
+  createdAt?: number;
+}
+
+// ==============================
+// Ashby
+// ==============================
+
+export interface IRawAshbyJob {
+  id: string;
+  title: string;
   location?: string;
-  season?: string;
+  department?: string;
+  team?: string;
+  employmentType?: string;
+  workplaceType?: string;
+  isRemote?: boolean;
+  descriptionHtml?: string;
+  descriptionPlain?: string;
+  publishedAt?: string;
+  jobUrl: string;
+  applyUrl?: string;
+  secondaryLocations?: Array<{
+    location?: string;
+    address?: {
+      addressLocality?: string;
+      addressRegion?: string;
+      addressCountry?: string;
+    };
+  }>;
+  address?: {
+    addressLocality?: string;
+    addressRegion?: string;
+    addressCountry?: string;
+  };
+}
+
+export interface IAshbyResponse {
+  apiVersion?: string;
+  jobs?: IRawAshbyJob[];
 }
