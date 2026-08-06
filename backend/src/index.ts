@@ -2,7 +2,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express from "express";
-import vacancies from "./routes/Vacancies.js";
+import jobs from "./routes/jobsRoutes.js";
+import companies from "./routes/companiesRoutes.js";
 import connectDB from "./config/db.js";
 import cron from "node-cron";
 import runFullDiscovery from "./services/aggregatorRunner.js";
@@ -22,7 +23,8 @@ app.use(
 
 app.use("/static", express.static("public"));
 
-app.use("/vacancies", vacancies);
+app.use("/jobs", jobs);
+app.use("/companies", companies);
 
 app.get("/", (req, res) => {
   res.json("main");
