@@ -1,9 +1,22 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
+import "./styles/global.css";
+import { BrowserRouter as Router } from "react-router-dom";
+import { LoadingProvider } from "./context/LoadingContext.tsx";
+
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  throw new Error("Root element was not found");
+}
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <Router>
+      <LoadingProvider>
+        <App />
+      </LoadingProvider>
+    </Router>
   </StrictMode>,
 );

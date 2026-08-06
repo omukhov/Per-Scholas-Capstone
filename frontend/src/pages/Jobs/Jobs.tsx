@@ -1,36 +1,38 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getJobs } from "../../api/api.ts";
+import { useLoading } from "../../context/LoadingContext.jsx";
+import type { Job } from "../../types/job.ts";
 
 function Jobs() {
-  const [jobs, setJobs] = useState([]);
-  const [totalJobs, setTotalJobs] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [totalJobs, setTotalJobs] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null);
+  const { startLoading, stopLoading } = useLoading();
 
   useEffect(() => {
-    async function loadJobs() {
+    async function loadJobs(): Promise<void> {
       try {
-        const data = await getJobs(1);
+        startLoading();
+        setError(null);
+        const data = await getJobs();
 
-        setJobs(data.jobs);
-        setTotalJobs(data.pagination.totalJobs);
-      } catch (error) {
-        setError("Failed to load jobs");
+        setJobs(data);
+      } catch (error: unknown) {
+        console.error("Failed to load jobs:", error);
+
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("Unknown error occurred");
+        }
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     }
 
     loadJobs();
   }, []);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
   return (
     <div>
       <h1>Job Market</h1>
