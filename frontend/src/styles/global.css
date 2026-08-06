@@ -2,24 +2,21 @@ body {
   margin: 0;
 }
 
+:root {
+  --container-width: 1320px;
+  --container-padding: 24px;
+}
+
 .container {
   width: 100%;
-  max-width: 1320px;
-
+  max-width: var(--container-width);
   margin: 0 auto;
-  padding: 32px 24px;
-
+  padding-inline: var(--container-padding);
   box-sizing: border-box;
 }
 
-@media (max-width: 992px) {
-  .container {
-    padding: 28px 20px;
-  }
-}
-
-@media (max-width: 576px) {
-  .container {
-    padding: 20px 12px;
+@media (max-width: 600px) {
+  :root {
+    --container-padding: 12px;
   }
 }

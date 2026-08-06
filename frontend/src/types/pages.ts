@@ -1,4 +1,4 @@
-export interface Job {
+export interface IJob {
   _id: string;
   title: string;
   company_name: string;
@@ -9,13 +9,13 @@ export interface Job {
   apply_url: string;
 }
 
-export interface Pagination {
+export interface IPagination {
   currentPage: number;
   totalPages: number;
   totalJobs: number;
 }
 
-export interface JobsResponse {
-  pagination: Pagination;
-  jobs: Job[];
+export interface IJobsResponse {
+  pagination: IPagination;
+  jobs: IJob[];
 }

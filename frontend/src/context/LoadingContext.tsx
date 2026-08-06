@@ -1,14 +1,14 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import type {
-  LoadingContextValue,
-  LoadingProviderProps,
+  ILoadingContextValue,
+  ILoadingProviderProps,
 } from "../types/context";
 
-const LoadingContext = createContext<LoadingContextValue | null>(null);
+const LoadingContext = createContext<ILoadingContextValue | null>(null);
 
 const MIN_LOADING_TIME = 300;
 
-export function LoadingProvider({ children }: LoadingProviderProps) {
+export function LoadingProvider({ children }: ILoadingProviderProps) {
   const [loading, setLoading] = useState(false);
 
   const startTime = useRef(0);
@@ -52,7 +52,7 @@ export function LoadingProvider({ children }: LoadingProviderProps) {
   );
 }
 
-export function useLoading(): LoadingContextValue {
+export function useLoading(): ILoadingContextValue {
   const context = useContext(LoadingContext);
 
   if (!context) {

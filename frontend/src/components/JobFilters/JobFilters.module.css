@@ -1,0 +1,122 @@
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin: 24px 0;
+  padding: 18px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+
+  background-color: #f3f4f6;
+  box-shadow: 0 4px 14px rgba(31, 41, 55, 0.06);
+}
+
+.searchForm {
+  display: flex;
+  flex: 1;
+  max-width: 650px;
+}
+
+.searchInput {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 15px;
+
+  border: 1px solid #9ca3af;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  outline: none;
+
+  color: #1f2937;
+  background-color: #ffffff;
+
+  font-size: 15px;
+}
+
+.searchInput:focus {
+  border-color: #4b5563;
+  box-shadow: inset 0 0 0 1px #4b5563;
+}
+
+.searchButton {
+  padding: 12px 20px;
+
+  border: 1px solid #374151;
+  border-radius: 0 8px 8px 0;
+
+  color: #ffffff;
+  background-color: #374151;
+
+  font-weight: 700;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.searchButton:hover {
+  background-color: #111827;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.filterButton,
+.clearButton {
+  padding: 11px 15px;
+
+  border: 1px solid #9ca3af;
+  border-radius: 8px;
+
+  color: #374151;
+  background-color: #ffffff;
+
+  font-weight: 650;
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.filterButton:hover {
+  border-color: #4b5563;
+  background-color: #e5e7eb;
+}
+
+.filterButton.active {
+  border-color: #374151;
+
+  color: #ffffff;
+  background-color: #4b5563;
+}
+
+.clearButton {
+  color: #6b7280;
+  background-color: transparent;
+}
+
+.clearButton:hover {
+  color: #111827;
+  background-color: #d1d5db;
+}
+
+@media (max-width: 800px) {
+  .filters {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .searchForm {
+    max-width: none;
+  }
+
+  .buttons {
+    flex-wrap: wrap;
+  }
+}

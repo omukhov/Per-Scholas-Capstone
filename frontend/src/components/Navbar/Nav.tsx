@@ -9,9 +9,9 @@ function Navbar() {
 
   return (
     <header className={styles.header}>
-      <nav className={styles.navbar}>
+      <nav className={`${styles.navbar} container`}>
         <NavLink to="/" className={styles.logo}>
-          <img src={logoImg} alt="" className={styles.logoImg} />
+          <img src={logoImg} alt="Job Market" className={styles.logoImg} />
           <span>Job Market</span>
         </NavLink>
 

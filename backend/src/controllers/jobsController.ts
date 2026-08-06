@@ -7,41 +7,30 @@ export const getJobs = async (req: Request, res: Response): Promise<void> => {
   try {
     const page = Number(req.query.page) || 1;
     const skip = (page - 1) * JOBS_PER_PAGE;
-
+    const level = String(req.query.level || "");
     const search = String(req.query.search || "").trim();
+    const remote = String(req.query.remote || "");
 
-    const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-    const searchFilter = search
-      ? {
-          $or: [
-            { title: { $regex: escapedSearch, $options: "i" } },
-            {
-              company_name: {
-                $regex: escapedSearch,
-                $options: "i",
-              },
-            },
-            {
-              location: {
-                $regex: escapedSearch,
-                $options: "i",
-              },
-            },
-            {
-              description: {
-                $regex: escapedSearch,
-                $options: "i",
-              },
-            },
-          ],
-        }
-      : {};
-
-    const filter = {
-      status: "active" as const,
-      ...searchFilter,
+    const filter: Record<string, unknown> = {
+      status: "active",
     };
+
+    if (search) {
+      filter.$or = [
+        { title: { $regex: search, $options: "i" } },
+        { company_name: { $regex: search, $options: "i" } },
+        { location: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    if (level) {
+      filter.job_level = level;
+    }
+
+    if (remote === "true") {
+      filter.is_remote = true;
+    }
 
     const [jobs, totalJobs] = await Promise.all([
       Job.find(filter)
@@ -50,7 +39,7 @@ export const getJobs = async (req: Request, res: Response): Promise<void> => {
         .limit(JOBS_PER_PAGE)
         .lean(),
 
-      Job.countDocuments({ status: "active" }),
+      Job.countDocuments(filter),
     ]);
 
     const totalPages = Math.ceil(totalJobs / JOBS_PER_PAGE);
@@ -59,7 +48,7 @@ export const getJobs = async (req: Request, res: Response): Promise<void> => {
       jobs,
       pagination: {
         currentPage: page,
-        totalPages,
+        totalPages: Math.ceil(totalJobs / JOBS_PER_PAGE),
         totalJobs,
       },
     });

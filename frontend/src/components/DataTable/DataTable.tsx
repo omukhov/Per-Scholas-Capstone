@@ -1,12 +1,12 @@
 import styles from "./DataTable.module.css";
-import type { DataTableProps } from "../../types/components";
+import type { IDataTableProps } from "../../types/components";
 
 export default function DataTable<T>({
   columns,
   data,
   getRowKey,
   emptyMessage = "No data found",
-}: DataTableProps<T>) {
+}: IDataTableProps<T>) {
   return (
     <div className={styles.wrapper}>
       <table className={styles.table}>

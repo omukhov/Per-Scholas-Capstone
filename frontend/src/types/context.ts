@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 
-export interface LoadingContextValue {
+export interface ILoadingContextValue {
   loading: boolean;
   startLoading: () => void;
   stopLoading: () => void;
 }
 
-export interface LoadingProviderProps {
+export interface ILoadingProviderProps {
   children: ReactNode;
 }
