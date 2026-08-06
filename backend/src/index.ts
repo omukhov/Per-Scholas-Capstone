@@ -9,9 +9,16 @@ import cron from "node-cron";
 import runFullDiscovery from "./services/aggregatorRunner.js";
 import runKalilImport from "./services/kalilRunner.js";
 import runAtsHarvester from "./services/atsHarvester.js";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 
 app.use(express.json());
 
