@@ -6,6 +6,7 @@ import Home from "./pages/Home/Home.js";
 import { useLoading } from "./context/LoadingContext";
 import Loader from "./components/Loader/Loader";
 import "./styles/global.css";
+import Companies from "./pages/Companies/Companies.js";
 
 const App = (): React.JSX.Element => {
   const { loading } = useLoading();
@@ -18,6 +19,7 @@ const App = (): React.JSX.Element => {
           <Route path="/" element={<Home />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/jobs/:id" element={<Job />} />
+          <Route path="/companies" element={<Companies />} />
         </Routes>
       </main>
     </div>

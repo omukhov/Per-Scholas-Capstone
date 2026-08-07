@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getJobs } from "../../api/api.ts";
 import { useLoading } from "../../context/LoadingContext.jsx";
 import type { IJob } from "../../types/pages.ts";
-import { columns } from "../../data/Companies.tsx";
+import columns from "../../data/Jobs.tsx";
 import DataTable from "../../components/DataTable/DataTable.tsx";
 import JobFilters from "../../components/JobFilters/JobFilters.tsx";
 import Pagination from "../../components/Pagination/Pagination.tsx";

@@ -26,6 +26,10 @@
   margin-bottom: 24px;
 }
 
+.jobTimeline {
+  margin-bottom: 40px;
+}
+
 @media (max-width: 900px) {
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);

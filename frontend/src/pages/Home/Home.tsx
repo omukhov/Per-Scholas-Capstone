@@ -74,7 +74,9 @@ function Home(): React.JSX.Element | null {
         <LevelChart data={dashboard.jobsByLevel} />
       </div>
 
-      <JobsTimeline data={dashboard.jobsByDay} />
+      <div className={styles.jobTimeline}>
+        <JobsTimeline data={dashboard.jobsByDay} />
+      </div>
     </section>
   );
 }

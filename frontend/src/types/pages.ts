@@ -54,3 +54,24 @@ export interface IJobDetailsResponse {
   job: IJob;
   coordinates: IJobCoordinates | null;
 }
+
+export interface ICompany {
+  _id: string;
+  name: string;
+  normalized_name: string;
+  ats_type: string;
+  ats_slug: string;
+  ats_url?: string;
+  seed_source?: string;
+  active: boolean;
+}
+
+export interface ICompaniesResponse {
+  companies: ICompany[];
+
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalCompanies: number;
+  };
+}

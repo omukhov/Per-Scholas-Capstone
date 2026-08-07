@@ -1,40 +1,49 @@
-import { Link } from "react-router-dom";
-import type { IJob } from "../types/pages.ts";
+import styles from "./Companies.module.css";
+import type { ICompany } from "../types/pages.ts";
 import type { ITableColumn } from "../types/components";
 
-export const columns: ITableColumn<IJob>[] = [
+const columns: ITableColumn<ICompany>[] = [
   {
-    key: "title",
-    title: "Position",
-    render: (job) => <Link to={`/jobs/${job._id}`}>{job.title}</Link>,
-  },
-  {
-    key: "company",
+    key: "name",
     title: "Company",
-    render: (job) => job.company_name,
+    render: (company) => company.name,
   },
+
   {
-    key: "location",
-    title: "Location",
-    render: (job) => job.location,
+    key: "atsType",
+    title: "ATS",
+    render: (company) => company.ats_type,
   },
+
   {
-    key: "level",
-    title: "Level",
-    render: (job) => job.job_level,
+    key: "atsSlug",
+    title: "ATS Slug",
+    render: (company) => company.ats_slug,
   },
+
   {
     key: "source",
     title: "Source",
-    render: (job) => job.source,
+    render: (company) => company.seed_source || "Unknown",
   },
+
   {
-    key: "apply",
-    title: "Apply",
-    render: (job) => (
-      <a href={job.apply_url} target="_blank" rel="noreferrer">
-        Apply
-      </a>
-    ),
+    key: "careers",
+    title: "Careers",
+    render: (company) =>
+      company.ats_url ? (
+        <a
+          href={company.ats_url}
+          target="_blank"
+          rel="noreferrer"
+          className={styles.link}
+        >
+          View jobs
+        </a>
+      ) : (
+        <span className={styles.unavailable}>Unavailable</span>
+      ),
   },
 ];
+
+export default columns;
