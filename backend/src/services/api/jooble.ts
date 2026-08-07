@@ -21,6 +21,7 @@ const SEARCH_QUERIES = [
 const MAX_PAGES_PER_QUERY = 2;
 const RESULTS_PER_PAGE = 20;
 
+// Get data from Jooble API
 const discoverJobsFromJooble = async (): Promise<IRawJoobleJob[]> => {
   const apiKey = process.env.JOOBLE_API_KEY;
 

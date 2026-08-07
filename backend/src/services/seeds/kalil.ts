@@ -31,6 +31,7 @@ const extractSlugFromUrl = (url: string): string | null => {
   }
 };
 
+// Get companies info from github (https://github.com/kalil0321/ats-scrapers)
 const fetchKalilFile = async (atsType: AtsType): Promise<IAtsCompanySeed[]> => {
   const fileUrl = `${BASE_URL}/${atsType}.csv`;
 

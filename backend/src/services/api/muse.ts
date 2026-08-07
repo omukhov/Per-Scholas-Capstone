@@ -16,6 +16,7 @@ const JOB_LEVELS = ["Entry Level", "Internship"] as const;
 const MAX_PAGES_PER_LEVEL = 2;
 const RESULTS_PER_PAGE = 20;
 
+// Get jobs from Muse API
 const discoverJobsFromMuse = async (): Promise<IRawMuseJob[]> => {
   const jobsById = new Map<string, IRawMuseJob>();
 

@@ -10,6 +10,7 @@ const lever = axios.create({
   },
 });
 
+// Get jobs from Lever API
 const fetchLeverJobs = async (company: ICompany): Promise<IRawLeverJob[]> => {
   try {
     const response = await lever.get<IRawLeverJob[]>(`/${company.ats_slug}`, {

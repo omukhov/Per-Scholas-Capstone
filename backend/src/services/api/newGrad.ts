@@ -1,6 +1,7 @@
 import { fetchSimplifyJobs } from "../parsers/simplifyGithub.js";
 import { IUnifiedJobInput } from "../../types/services.js";
 
+// Get new vacancies form github
 const fetchGithubNewGrad = (): Promise<IUnifiedJobInput[]> => {
   return fetchSimplifyJobs({
     url:

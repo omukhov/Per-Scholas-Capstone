@@ -4,6 +4,7 @@ import type {
   ISaveAtsCompaniesResult,
 } from "../types/services.js";
 
+// Save companies to database
 export const saveAtsCompanies = async (
   companies: IAtsCompanySeed[],
 ): Promise<ISaveAtsCompaniesResult> => {

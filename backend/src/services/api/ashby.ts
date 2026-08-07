@@ -10,6 +10,7 @@ const ashby = axios.create({
   },
 });
 
+// Get data from Ashby API
 const fetchAshbyJobs = async (company: ICompany): Promise<IRawAshbyJob[]> => {
   try {
     const response = await ashby.get<IAshbyResponse>(`/${company.ats_slug}`);

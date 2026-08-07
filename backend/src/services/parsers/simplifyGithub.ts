@@ -29,6 +29,7 @@ const getApplicationUrl = (links: string[]): string | null => {
   return directUrl ?? validLinks[0] ?? null;
 };
 
+// Parse data from github
 export const fetchSimplifyJobs = async (
   config: ISimplifyGithubConfig,
 ): Promise<IUnifiedJobInput[]> => {
@@ -37,6 +38,7 @@ export const fetchSimplifyJobs = async (
       responseType: "text",
     });
 
+    // Parse from Cheerio library
     const $ = load(response.data);
 
     const jobsByUrl = new Map<string, IUnifiedJobInput>();

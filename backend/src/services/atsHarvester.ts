@@ -47,6 +47,8 @@ const atsHarvesters = {
   ashby: harvestAshby,
 };
 
+// Get info from companies (ats, slug) and uses for getting jobs from
+// (Greenhouse, Lever, Ashby)
 export const runAtsHarvester = async (): Promise<void> => {
   console.log("[Harvester] Starting Direct ATS Job Scraping...");
 

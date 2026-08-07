@@ -6,6 +6,7 @@ export const getDashboard = async (
   res: Response,
 ): Promise<void> => {
   try {
+    // Filter when status is active in database
     const activeFilter = {
       status: "active",
     } as const;
@@ -25,6 +26,7 @@ export const getDashboard = async (
     ] = await Promise.all([
       Job.countDocuments(activeFilter),
 
+      // Return all unique values array normalized_company_name
       Job.distinct("normalized_company_name", activeFilter),
 
       Job.countDocuments({
@@ -39,15 +41,20 @@ export const getDashboard = async (
 
       // Jobs by source
       Job.aggregate([
+        // Filter by activeFilter
         {
           $match: activeFilter,
         },
+        // Group by source value and add 1 for every job group
+        // At the end me get how many vacancies we have in every job group
+        // (Adzuna, ashby, jooble, muse, lever, greenhouse)
         {
           $group: {
             _id: "$source",
             value: { $sum: 1 },
           },
         },
+        // Change result (like function map for js arrays)
         {
           $project: {
             _id: 0,
@@ -55,6 +62,7 @@ export const getDashboard = async (
             value: 1,
           },
         },
+        // Sort by how many vacancies from bigger to lower
         {
           $sort: {
             value: -1,

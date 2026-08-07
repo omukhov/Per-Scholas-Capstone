@@ -34,11 +34,16 @@ export const loginWithGoogle = async (
     let payload;
 
     try {
+      /*
+       * Verify that the ID token was issued by Google,
+       * has not expired and belongs to this application.
+       */
       const ticket = await googleClient.verifyIdToken({
         idToken: credential,
         audience: googleClientId,
       });
 
+      // Extract verified Google account information.
       payload = ticket.getPayload();
     } catch {
       res.status(401).json({
@@ -65,21 +70,25 @@ export const loginWithGoogle = async (
       {
         google_id: payload.sub,
       },
+      // Works every time when user login, update (email, name, picture)
       {
         $set: {
           email: payload.email,
           name: payload.name,
           picture: payload.picture,
         },
-
+        // Works every time when document created
         $setOnInsert: {
           google_id: payload.sub,
         },
       },
+      // Update + insert
+      // Return document after updating or creating
       {
         upsert: true,
         new: true,
       },
+      // Return javascript object only
     ).lean();
 
     res.status(200).json({

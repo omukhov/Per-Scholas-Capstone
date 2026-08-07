@@ -10,11 +10,14 @@ export const getCompanies = async (
   try {
     const page = Number(req.query.page) || 1;
     const skip = (page - 1) * COMPANIES_PER_PAGE;
+    // Trim remove space from both and end
     const search = String(req.query.search || "").trim();
     const filter: Record<string, unknown> = {};
 
+    // Search for keywords
     if (search) {
       filter.$or = [
+        // Search if any this property will have keywords
         { name: { $regex: search, $options: "i" } },
         { normalized_name: { $regex: search, $options: "i" } },
         { ats_type: { $regex: search, $options: "i" } },

@@ -1,6 +1,7 @@
 import fetchKalilAtsCompanies from "./seeds/kalil.js";
 import { saveAtsCompanies } from "./saveAtsCompanies.js";
 
+// Get companies from github kalil and write this info to table companies
 export const runKalilImport = async (): Promise<void> => {
   console.log("[Kalil Import] Starting...");
 

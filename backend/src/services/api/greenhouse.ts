@@ -13,6 +13,7 @@ const greenhouse = axios.create({
   },
 });
 
+// Get jobs from Greenhouse API
 const fetchGreenhouseJobs = async (
   company: ICompany,
 ): Promise<IRawGreenhouseJob[]> => {

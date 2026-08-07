@@ -80,6 +80,9 @@ export interface IJobLocation {
   updated_at: Date;
 }
 
+// ==============================
+// User model
+// ==============================
 export interface IUser {
   google_id: string;
   email: string;

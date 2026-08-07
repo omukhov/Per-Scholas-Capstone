@@ -6,6 +6,7 @@ import { Company } from "../models/Company.js";
 
 import runKalilImport from "../services/kalilRunner.js";
 
+// Function for get all kalil jobs 11k+ and save to database
 const importAllKalil = async (): Promise<void> => {
   try {
     await connectDB();

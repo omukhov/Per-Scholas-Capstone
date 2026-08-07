@@ -12,6 +12,7 @@ import {
 import type { IUnifiedJobInput } from "../types/services.js";
 import { isUnifiedJob } from "../utils/typeGuards.js";
 
+// Invoke functions (Adzuna, muse, jooble, github internships, github new jobs)
 const runFullDiscovery = async (): Promise<void> => {
   console.log("[Discovery] Starting job discovery...");
 
@@ -79,6 +80,7 @@ const runFullDiscovery = async (): Promise<void> => {
       },
     }));
 
+    // Write to database only unique jobs
     const result = await Job.bulkWrite(operations, {
       ordered: false,
     });

@@ -9,6 +9,7 @@ const nominatim = axios.create({
   },
 });
 
+// Get coordinates from location name for map in vacancies
 export const geocodeLocation = async (
   location: string,
 ): Promise<IGeocodedLocation | null> => {

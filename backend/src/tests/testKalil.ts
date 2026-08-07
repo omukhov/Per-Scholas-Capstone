@@ -1,5 +1,6 @@
 import fetchKalilAtsCompanies from "../services/seeds/kalil.js";
 
+// Test kalil function, get companies
 const testKalil = async (): Promise<void> => {
   console.log("[Test Kalil] Starting...");
 

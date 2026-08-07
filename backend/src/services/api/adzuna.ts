@@ -18,7 +18,9 @@ const SEARCH_QUERIES = [
 const MAX_PAGES_PER_QUERY = 1;
 const RESULTS_PER_PAGE = 50;
 
+// Get data from Adzuna api
 const discoverJobsFromAdzuna = async (): Promise<IRawAdzunaJob[]> => {
+  // Empty collection <key type: value type>
   const jobsById = new Map<string, IRawAdzunaJob>();
 
   for (const query of SEARCH_QUERIES) {
@@ -44,6 +46,7 @@ const discoverJobsFromAdzuna = async (): Promise<IRawAdzunaJob[]> => {
         const jobs = response.data.results ?? [];
 
         for (const job of jobs) {
+          // Set get 2 parameters (key, value)
           jobsById.set(String(job.id), job);
         }
       } catch (error: unknown) {
@@ -57,6 +60,7 @@ const discoverJobsFromAdzuna = async (): Promise<IRawAdzunaJob[]> => {
     }
   }
 
+  // Created new array with only values
   const jobs = [...jobsById.values()];
 
   console.log(`[Adzuna] Collected ${jobs.length} ` + "unique jobs");
