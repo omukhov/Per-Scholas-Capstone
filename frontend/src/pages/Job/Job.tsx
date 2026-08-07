@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import type { IJobDetailsResponse } from "../../types/pages";
+import type { IJob, IJobCoordinates } from "../../types/pages";
 import { getJobById } from "../../api/api";
 import styles from "./Job.module.css";
 import { useLoading } from "../../context/LoadingContext";
 import { useParams } from "react-router-dom";
+import DOMPurify from "dompurify";
+import JobMap from "../../components/JobMap/JobMap";
 
 const Job = (): React.JSX.Element | null => {
   const { id } = useParams<{ id: string }>();
-  const [details, setDetails] = useState<IJobDetailsResponse | null>(null);
+  const [job, setJob] = useState<IJob | null>(null);
+  const [coordinates, setCoordinates] = useState<IJobCoordinates | null>(null);
 
   const { startLoading, stopLoading } = useLoading();
 
@@ -20,7 +23,8 @@ const Job = (): React.JSX.Element | null => {
       try {
         startLoading();
         const response = await getJobById(id);
-        setDetails(response);
+        setJob(response.job);
+        setCoordinates(response.coordinates);
       } catch (error) {
         console.error("Failed to load dashboard:", error);
       } finally {
@@ -31,35 +35,33 @@ const Job = (): React.JSX.Element | null => {
     void fetchJob();
   }, []);
 
-  if (!details) {
+  if (!job) {
     return null;
   }
 
-  const { job, coordinates } = details;
+  const safeDescription = DOMPurify.sanitize(
+    job.description || "<p>Description is unavailable.</p>",
+    {
+      USE_PROFILES: {
+        html: true,
+      },
+    },
+  );
 
   return (
     <div className={styles.page}>
-      <section className={styles.details}>
-        <h1>{job.title}</h1>
+      <header className={styles.hero}>
+        <div>
+          <p className={styles.company}>{job.company_name}</p>
+          <h1>{job.title}</h1>
 
-        <h2>{job.company_name}</h2>
+          <div className={styles.badges}>
+            <span>{job.job_level.replace(/_/g, " ")}</span>
 
-        <p>
-          <strong>Location:</strong> {job.location}
-        </p>
+            {job.is_remote && <span>Remote</span>}
 
-        <p>
-          <strong>Level:</strong> {job.job_level}
-        </p>
-
-        <p>
-          <strong>Source:</strong> {job.source}
-        </p>
-
-        <div className={styles.description}>
-          <h2>Description</h2>
-
-          <p>{job.description || "Description is unavailable."}</p>
+            <span>{job.source}</span>
+          </div>
         </div>
 
         <a
@@ -68,15 +70,54 @@ const Job = (): React.JSX.Element | null => {
           rel="noreferrer"
           className={styles.applyButton}
         >
-          Apply for this job
+          Apply now
         </a>
-      </section>
+      </header>
 
-      {/* <JobMap
+      <div className={styles.content}>
+        <main className={styles.descriptionCard}>
+          <h2>Job Description</h2>
+
+          <div
+            className={styles.description}
+            dangerouslySetInnerHTML={{
+              __html: safeDescription,
+            }}
+          />
+        </main>
+
+        <aside className={styles.sidebar}>
+          <section className={styles.infoCard}>
+            <h2>Job Information</h2>
+
+            <div className={styles.infoItem}>
+              <span>Company</span>
+              <strong>{job.company_name}</strong>
+            </div>
+
+            <div className={styles.infoItem}>
+              <span>Location</span>
+              <strong>{job.location}</strong>
+            </div>
+
+            <div className={styles.infoItem}>
+              <span>Level</span>
+              <strong>{job.job_level.replace(/_/g, " ")}</strong>
+            </div>
+
+            <div className={styles.infoItem}>
+              <span>Source</span>
+              <strong>{job.source}</strong>
+            </div>
+          </section>
+        </aside>
+      </div>
+
+      <JobMap
         location={job.location}
         latitude={coordinates?.latitude}
         longitude={coordinates?.longitude}
-      /> */}
+      />
     </div>
   );
 };

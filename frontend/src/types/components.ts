@@ -63,3 +63,9 @@ export interface IJobsTimelineItem {
 export interface IJobsTimelineProps {
   data: IJobsTimelineItem[];
 }
+
+export interface IJobMapProps {
+  location: string;
+  latitude?: number;
+  longitude?: number;
+}

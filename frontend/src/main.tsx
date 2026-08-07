@@ -4,6 +4,7 @@ import App from "./App.tsx";
 import "./styles/global.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { LoadingProvider } from "./context/LoadingContext.tsx";
+import "leaflet/dist/leaflet.css";
 
 const rootElement = document.getElementById("root");
 
