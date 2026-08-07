@@ -1,4 +1,5 @@
 import Jobs from "./pages/Jobs/Jobs";
+import Job from "./pages/Job/Job.js";
 import Nav from "./components/Navbar/Nav.jsx";
 import { Routes, Route } from "react-router";
 import Home from "./pages/Home/Home.js";
@@ -16,6 +17,7 @@ const App = (): React.JSX.Element => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/jobs" element={<Jobs />} />
+          <Route path="/jobs/:id" element={<Job />} />
         </Routes>
       </main>
     </div>

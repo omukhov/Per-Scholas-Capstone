@@ -7,6 +7,7 @@ export interface IJob {
   job_level: string;
   is_remote?: boolean;
   apply_url: string;
+  description?: string;
 }
 
 export interface IPagination {
@@ -42,4 +43,14 @@ export interface IDashboardData {
     date: string;
     jobs: number;
   }[];
+}
+
+export interface IJobCoordinates {
+  latitude: number;
+  longitude: number;
+}
+
+export interface IJobDetailsResponse {
+  job: IJob;
+  coordinates: IJobCoordinates | null;
 }

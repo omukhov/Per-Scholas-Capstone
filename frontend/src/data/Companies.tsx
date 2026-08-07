@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import type { Job } from "../types/pages.ts";
+import type { IJob } from "../types/pages.ts";
 import type { ITableColumn } from "../types/components";
 
-export const columns: ITableColumn<Job>[] = [
+export const columns: ITableColumn<IJob>[] = [
   {
     key: "title",
     title: "Position",
