@@ -39,6 +39,7 @@ const Job = (): React.JSX.Element | null => {
     return null;
   }
 
+  // Clean description from html tags
   const safeDescription = DOMPurify.sanitize(
     job.description || "<p>Description is unavailable.</p>",
     {

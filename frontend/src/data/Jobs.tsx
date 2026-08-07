@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import type { IJob } from "../types/pages.ts";
 import type { ITableColumn } from "../types/components";
 
+// Columns from job table
 const columns: ITableColumn<IJob>[] = [
   {
     key: "title",

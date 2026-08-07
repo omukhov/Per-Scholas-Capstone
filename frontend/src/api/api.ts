@@ -8,6 +8,7 @@ import type {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+// Get jobs from backend
 export const getJobs = async (
   page = 1,
   search = "",
@@ -15,6 +16,7 @@ export const getJobs = async (
   remoteOnly = false,
 ): Promise<IJobsResponse> => {
   try {
+    // Get url params which user send
     const params = new URLSearchParams({
       page: String(page),
       search,
@@ -43,6 +45,7 @@ export const getJobs = async (
   }
 };
 
+// Get dashboard for home page
 export const getDashboard = async (): Promise<IDashboardData> => {
   try {
     const response = await fetch(`${API_URL}/`);
@@ -58,6 +61,7 @@ export const getDashboard = async (): Promise<IDashboardData> => {
   }
 };
 
+// Get job details from backend
 export const getJobById = async (id: string): Promise<IJobDetailsResponse> => {
   try {
     const response = await fetch(`${API_URL}/jobs/${id}`);
@@ -74,6 +78,7 @@ export const getJobById = async (id: string): Promise<IJobDetailsResponse> => {
   }
 };
 
+// Get companies from backend
 export const getCompanies = async (
   page = 1,
   search = "",
@@ -97,6 +102,7 @@ export const getCompanies = async (
   }
 };
 
+// Login with backend and google API
 export const loginWithGoogle = async (
   credential: string,
 ): Promise<IGoogleLoginResponse> => {

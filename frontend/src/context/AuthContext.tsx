@@ -8,6 +8,7 @@ import type {
 
 const AuthContext = createContext<IAuthContext | null>(null);
 
+// Keep user in localhost
 const getStoredUser = (): IAuthUser | null => {
   const storedUser = localStorage.getItem("authUser");
 
@@ -18,6 +19,7 @@ const getStoredUser = (): IAuthUser | null => {
   return JSON.parse(storedUser) as IAuthUser;
 };
 
+// Auth context
 export function AuthProvider({
   children,
 }: IAuthProviderProps): React.JSX.Element {

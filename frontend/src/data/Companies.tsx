@@ -2,6 +2,7 @@ import styles from "./Companies.module.css";
 import type { ICompany } from "../types/pages.ts";
 import type { ITableColumn } from "../types/components";
 
+// Columns for companies table
 const columns: ITableColumn<ICompany>[] = [
   {
     key: "name",
