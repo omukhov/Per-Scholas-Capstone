@@ -1,3 +1,4 @@
+import type { IGoogleLoginResponse } from "../types/api";
 import type {
   IJobsResponse,
   IDashboardData,
@@ -87,6 +88,33 @@ export const getCompanies = async (
 
     if (!response.ok) {
       throw new Error(`Failed to load companies: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Fetch failed:", error);
+    throw error;
+  }
+};
+
+export const loginWithGoogle = async (
+  credential: string,
+): Promise<IGoogleLoginResponse> => {
+  try {
+    const response = await fetch(`${API_URL}/auth/google`, {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        credential,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Google login failed: ${response.status}`);
     }
 
     return response.json();

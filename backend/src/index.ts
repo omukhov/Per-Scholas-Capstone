@@ -11,6 +11,7 @@ import runKalilImport from "./services/kalilRunner.js";
 import runAtsHarvester from "./services/atsHarvester.js";
 import cors from "cors";
 import home from "./routes/homeRoutes.js";
+import auth from "./routes/authRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,6 +30,7 @@ app.use(
   }),
 );
 app.get("/", home);
+app.use("/auth", auth);
 app.use("/static", express.static("public"));
 app.use("/jobs", jobs);
 app.use("/companies", companies);

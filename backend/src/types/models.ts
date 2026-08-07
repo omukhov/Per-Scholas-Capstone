@@ -79,3 +79,13 @@ export interface IJobLocation {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface IUser {
+  google_id: string;
+  email: string;
+  name: string;
+  picture?: string;
+
+  created_at: Date;
+  updated_at: Date;
+}
