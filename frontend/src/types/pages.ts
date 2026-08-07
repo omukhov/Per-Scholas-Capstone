@@ -19,3 +19,27 @@ export interface IJobsResponse {
   pagination: IPagination;
   jobs: IJob[];
 }
+
+export interface IDashboardData {
+  summary: {
+    totalJobs: number;
+    totalCompanies: number;
+    remoteJobs: number;
+    internships: number;
+  };
+
+  jobsBySource: {
+    name: string;
+    value: number;
+  }[];
+
+  jobsByLevel: {
+    name: string;
+    value: number;
+  }[];
+
+  jobsByDay: {
+    date: string;
+    jobs: number;
+  }[];
+}

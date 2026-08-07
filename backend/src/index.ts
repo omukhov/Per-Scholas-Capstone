@@ -10,6 +10,7 @@ import runFullDiscovery from "./services/aggregatorRunner.js";
 import runKalilImport from "./services/kalilRunner.js";
 import runAtsHarvester from "./services/atsHarvester.js";
 import cors from "cors";
+import home from "./routes/homeRouter.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,9 +34,7 @@ app.use("/static", express.static("public"));
 app.use("/jobs", jobs);
 app.use("/companies", companies);
 
-app.get("/", (req, res) => {
-  res.json("main");
-});
+app.get("/", home);
 
 connectDB().then(() => {
   app.listen(PORT, () => {

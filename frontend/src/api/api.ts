@@ -1,4 +1,4 @@
-import type { IJobsResponse } from "../types/pages";
+import type { IJobsResponse, IDashboardData } from "../types/pages";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -31,6 +31,21 @@ export const getJobs = async (
     const data: IJobsResponse = await response.json();
 
     return data;
+  } catch (error) {
+    console.error("Fetch failed:", error);
+    throw error;
+  }
+};
+
+export const getDashboard = async (): Promise<IDashboardData> => {
+  try {
+    const response = await fetch(`${API_URL}/`);
+
+    if (!response.ok) {
+      throw new Error("Failed to load dashboard");
+    }
+
+    return response.json();
   } catch (error) {
     console.error("Fetch failed:", error);
     throw error;

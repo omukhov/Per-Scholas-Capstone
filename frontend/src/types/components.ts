@@ -30,3 +30,36 @@ export interface IPaginationProps {
   totalPages: number;
   onPageChange: (page: number) => void;
 }
+
+export interface IStatCardProps {
+  title: string;
+  value: number;
+  description?: string;
+}
+
+export interface IChartDataItem {
+  name: string;
+  value: number;
+}
+
+export interface ISourceChartProps {
+  data: IChartDataItem[];
+}
+
+export interface IChartDataItem {
+  name: string;
+  value: number;
+}
+
+export interface ILevelChartProps {
+  data: IChartDataItem[];
+}
+
+export interface IJobsTimelineItem {
+  date: string;
+  jobs: number;
+}
+
+export interface IJobsTimelineProps {
+  data: IJobsTimelineItem[];
+}
