@@ -10,6 +10,11 @@ export const getCompanies = async (
   try {
     const page = Number(req.query.page) || 1;
     const skip = (page - 1) * COMPANIES_PER_PAGE;
+    const search = String(req.query.search || "").trim();
+
+    const filter: Record<string, unknown> = {
+      status: true,
+    };
 
     const [companies, totalCompanies] = await Promise.all([
       Company.find()

@@ -24,6 +24,8 @@ export type AtsSeedSource =
   | "kalil_ats_scrapers"
   | "manual";
 
+export type JobLocationStatus = "resolved" | "not_found";
+
 // ==============================
 // Company model
 // ==============================
@@ -61,6 +63,19 @@ export interface IJob {
   season?: string;
   status: JobStatus;
   last_seen_at: Date;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface IJobLocation {
+  job_id: Types.ObjectId;
+  source_location: string;
+
+  latitude?: number;
+  longitude?: number;
+
+  status: JobLocationStatus;
+
   created_at: Date;
   updated_at: Date;
 }

@@ -160,3 +160,17 @@ export interface IAshbyResponse {
   apiVersion?: string;
   jobs?: IRawAshbyJob[];
 }
+
+// ==============================
+// Nominatim
+// ==============================
+export interface INominatimResult {
+  lat: string;
+  lon: string;
+  display_name: string;
+}
+
+export interface IGeocodedLocation {
+  latitude: number;
+  longitude: number;
+}
